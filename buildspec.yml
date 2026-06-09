@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     AWS_DEFAULT_REGION: us-east-1
-    ECR_REPO_NAME: demo-ecr-app
+    ECR_REPO_NAME: demo-repository
     IMAGE_TAG: latest
 
 phases:
