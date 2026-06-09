@@ -4,7 +4,6 @@ env:
   variables:
     AWS_DEFAULT_REGION: us-east-1
     ECR_REPO_NAME: demo-repository
-    IMAGE_TAG: $CODEBUILD_RESOLVED_SOURCE_VERSION
 
 phases:
   pre_build:
@@ -14,7 +13,9 @@ phases:
       - echo "Logging in to Amazon ECR..."
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - REPOSITORY_URI=$ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - echo "Repository URI is $REPOSITORY_URI"
+      - echo "Image tag is $IMAGE_TAG"
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
 
   build:
